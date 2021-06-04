@@ -1,8 +1,10 @@
 package dataStructure;
 
 public class pVariable extends pSymbol{
-	public static final int NUMBER = 0;
-	public static final int TEXT = 0;
+	public static final int Integer = 0;
+	public static final int Real = 1;
+	public static final int Boolean = 2;
+	public static final int String = 3;
 	
 	private int type;
 	private String value;
