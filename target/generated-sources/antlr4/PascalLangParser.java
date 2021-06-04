@@ -328,6 +328,12 @@ public class PascalLangParser extends Parser {
 											_varValue = null;
 											symbol = new pVariable( _varName, _tipo, _varValue);
 											System.out.println("Simbolo adicionado" + symbol);
+											if (!pSymbolTable.exists(_varName)){
+												pSymbolTable.add(symbol);
+											}
+											else{
+												throw new pException("Symbol "+_varName+"already declared");
+											}
 											symbolTable.add(symbol);		
 									
 			setState(82);

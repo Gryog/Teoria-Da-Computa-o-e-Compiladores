@@ -3,6 +3,7 @@ package main;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
+import exceptions.pException;
 import parser.PascalLangLexer;
 import parser.PascalLangParser;
 
@@ -19,6 +20,9 @@ public class mainClass {
 			
 			parser.programa();
 			
+		}
+		catch(pException ex) {
+			System.err.println("Semantic error - "+ex.getMessage());
 		}
 		catch (Exception ex) {
 			System.err.println("ERROR"+ex.getMessage());
