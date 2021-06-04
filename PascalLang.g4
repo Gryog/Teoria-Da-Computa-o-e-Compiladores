@@ -1,5 +1,21 @@
 grammar PascalLang;
 
+@header{
+	import dataStructure.pSymbol;
+	import dataStructure.pSymbolTable;
+	import dataStructure.pVariable;
+	import exceptions.pException;
+	import java.util.ArrayList;
+}
+
+@members{
+	private int _tipo;
+	private String _varName;
+	private String _varValue;
+	private pSymbolTable  symbolTable = new pSymbolTable();
+	private pSymbol symbol;
+}
+
 //Programa e Bloco
 
 programa	: PROGRAM identificador PV bloco
@@ -8,7 +24,7 @@ programa	: PROGRAM identificador PV bloco
 bloco		: part_decl_var? part_decl_sub_rotinas? comando_composto
 			;
 
-//Declarações
+//DeclaraÃ§Ãµes
 
 part_decl_var : decl_vars (PV decl_vars)* PV
 			  ;
@@ -16,7 +32,21 @@ part_decl_var : decl_vars (PV decl_vars)* PV
 decl_vars 	: tipo lista_identificadores
 			;
 			
-lista_identificadores	: identificador (VG identificador)*
+lista_identificadores	: identificador{
+								_varName = LT(-1).getText();
+								_varValue = null;
+								symbol = new pVariable( _varName, _varValue, _tipo, _varValue);
+								System.out.println("Simbolo adicionado" + symbol);
+								symbolTable.add(symbol);		
+						} 
+						(VG identificador{
+								_varName = LT(-1).getText();
+								_varValue = null;
+								symbol = new pVariable( _varName, _varValue, _tipo, _varValue);
+								System.out.println("Simbolo adicionado" + symbol);
+								symbolTable.add(symbol);		
+						}	
+						)*
 						;
 
 part_decl_sub_rotinas	: ( decl_procedimento PV)*
@@ -51,7 +81,7 @@ comando_condicional	: IF expressao THEN comando (ELSE comando)? {System.out.prin
 comando_repetitivo	: WHILE expressao DO comando {System.out.println("Reconheci um comando repetitivo");}
 					;
 
-//Expressões
+//ExpressÃµes
 expressao	: expressao_simples (Relacao expressao_simples)?
 			;
 					
@@ -70,7 +100,7 @@ variavel	: identificador | identificador (expressao)?
 list_expressoes	: expressao (VG expressao)*
 				;		
 		
-//Números e idetificadores
+//NÃºmeros e idetificadores
 numero	:Digito (Digito)*
 		;	
 		
@@ -78,7 +108,10 @@ identificador	: Letra (Letra | Digito)*
 				;
 				
 //TIPOS		
-tipo	: Integer | Real | Boolean | Char | String  
+tipo	: Integer { _tipo = pVariable.Integer; } 
+		| Real    { _tipo = pVariable.Real; }
+		| Boolean { _tipo = pVariable.Boolean; }
+		| String  { _tipo = pVariable.String; }
 		;
 				
 //TOKENS				
