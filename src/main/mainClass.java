@@ -20,6 +20,9 @@ public class mainClass {
 			parser.programa();
 			
 		}
+		catch (pException ex) {
+			System.err.println("ERROR"+ex.getMessage());
+		}
 		catch (Exception ex) {
 			System.err.println("ERROR"+ex.getMessage());
 		}
