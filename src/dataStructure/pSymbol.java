@@ -1,7 +1,7 @@
 package dataStructure;
 
 public abstract class pSymbol {
-	private String name;
+	protected String name;
 	
 	public pSymbol(String name) {
 		this.name = name;

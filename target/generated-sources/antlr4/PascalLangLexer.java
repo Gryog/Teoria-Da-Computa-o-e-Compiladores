@@ -1,4 +1,11 @@
 // Generated from PascalLang.g4 by ANTLR 4.4
+
+	import dataStructure.pSymbol;
+	import dataStructure.pSymbolTable;
+	import dataStructure.pVariable;
+	import exceptions.pException;
+	import java.util.ArrayList;
+
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -39,6 +46,13 @@ public class PascalLangLexer extends Lexer {
 		"Real", "Boolean", "Char", "String", "TRUE", "FALSE", "PLUS", "MINUS", 
 		"TIMES", "AP", "FP", "PV", "VG", "DP", "ATB", "IF", "WS"
 	};
+
+
+		private int _tipo;
+		private String _varName;
+		private String _varValue;
+		private pSymbolTable  symbolTable = new pSymbolTable();
+		private pSymbol symbol;
 
 
 	public PascalLangLexer(CharStream input) {
