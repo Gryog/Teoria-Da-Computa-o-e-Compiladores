@@ -53,6 +53,12 @@ public class PascalLangLexer extends Lexer {
 		private String _varValue;
 		private pSymbolTable  symbolTable = new pSymbolTable();
 		private pSymbol symbol;
+		
+		public void verificaID(String id){
+			if(!symbolTable.exists(id)){
+				throw new pException("Symbol "+_varName+" already declared");
+			}
+		}
 
 
 	public PascalLangLexer(CharStream input) {

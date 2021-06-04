@@ -14,11 +14,17 @@ grammar PascalLang;
 	private String _varValue;
 	private pSymbolTable  symbolTable = new pSymbolTable();
 	private pSymbol symbol;
+	
+	public void verificaID(String id){
+		if(!symbolTable.exists(id)){
+			throw new pException("Symbol "+_varName+" already declared");
+		}
+	}
 }
 
 //Programa e Bloco
 
-programa	: PROGRAM identificador PV bloco
+programa	: PROGRAM identificador { verificaID(_input.LT(-1).getText()); } PV bloco
 			;
 			
 bloco		: part_decl_var? part_decl_sub_rotinas? comando_composto
@@ -62,13 +68,14 @@ lista_identificadores	: identificador{
 part_decl_sub_rotinas	: ( decl_procedimento PV)*
 						;
 						
-decl_procedimento	: PROCEDURE identificador parametr_formais? PV bloco
+decl_procedimento	: PROCEDURE identificador{ verificaID(_input.LT(-1).getText()); } 
+					parametr_formais? PV bloco
 					;
 					
 parametr_formais	: AP selec_parametr_formais (PV selec_parametr_formais)* FP
 					;
 			
-selec_parametr_formais	: VAR? lista_identificadores DP identificador
+selec_parametr_formais	: VAR? lista_identificadores DP identificador { verificaID(_input.LT(-1).getText()); }
 						;
 						
 //Comandos
@@ -82,7 +89,8 @@ comando	: atribuicao | chamada_procedimento | comando_composto | comando_condici
 atribuicao	: variavel ATB expressao {System.out.println("Reconheci um comando de atribuicao");}
 			;
 			
-chamada_procedimento	: identificador (AP list_expressoes FP)? {System.out.println("Reconheci um comando de chamada de procedimento");}
+chamada_procedimento	: identificador { verificaID(_input.LT(-1).getText()); } 
+						(AP list_expressoes FP)? {System.out.println("Reconheci um comando de chamada de procedimento");}
 						;
 						
 comando_condicional	: IF expressao THEN comando (ELSE comando)? {System.out.println("Reconheci um comando condicional");}
@@ -104,7 +112,9 @@ termo	: fator ((TIMES | DIV | AND) fator)*
 fator	: variavel | numero | AP expressao FP | NOT fator
 		;
 
-variavel	: identificador | identificador (expressao)?
+variavel	: identificador { verificaID(_input.LT(-1).getText()); } 
+			| identificador { verificaID(_input.LT(-1).getText()); }
+			(expressao)?
 			;
 			
 list_expressoes	: expressao (VG expressao)*
