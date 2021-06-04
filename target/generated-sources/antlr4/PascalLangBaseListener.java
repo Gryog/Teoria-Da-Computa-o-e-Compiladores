@@ -1,5 +1,12 @@
 // Generated from PascalLang.g4 by ANTLR 4.4
 
+	import dataStructure.pSymbol;
+	import dataStructure.pSymbolTable;
+	import dataStructure.pVariable;
+	import exceptions.pException;
+	import java.util.ArrayList;
+
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ErrorNode;

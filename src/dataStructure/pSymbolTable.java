@@ -10,7 +10,7 @@ public class pSymbolTable {
 		map = new HashMap<String, pSymbol>();
 	}
 	
-	public add(pSymbol symbol) {
+	public void add(pSymbol symbol) {
 		map.put(symbol.getName(), symbol);
 	}
 	
