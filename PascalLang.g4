@@ -37,20 +37,24 @@ lista_identificadores	: identificador{
 								_varValue = null;
 								symbol = new pVariable( _varName, _tipo, _varValue);
 								System.out.println("Simbolo adicionado" + symbol);
-								if (!pSymbolTable.exists(_varName)){
-									pSymbolTable.add(symbol);
+								if (!symbolTable.exists(_varName)){
+									symbolTable.add(symbol);
 								}
 								else{
-									throw new pException("Symbol "+_varName+"already declared");
-								}
-								symbolTable.add(symbol);		
+									throw new pException("Symbol "+_varName+" already declared");
+								}		
 						} 
 						(VG identificador{
 								_varName = _input.LT(-1).getText();
 								_varValue = null;
 								symbol = new pVariable( _varName, _tipo, _varValue);
 								System.out.println("Simbolo adicionado" + symbol);
-								symbolTable.add(symbol);		
+								if (!symbolTable.exists(_varName)){
+									symbolTable.add(symbol);
+								}
+								else{
+									throw new pException("Symbol "+_varName+" already declared");
+								}	
 						}	
 						)*
 						;

@@ -4,6 +4,7 @@ integer x;
 integer y;
 integer z;
 integer a;
+String a; 
 
 begin
  x := 1
