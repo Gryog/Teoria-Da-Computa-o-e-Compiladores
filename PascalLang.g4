@@ -33,14 +33,14 @@ decl_vars 	: tipo lista_identificadores
 			;
 			
 lista_identificadores	: identificador{
-								_varName = LT(-1).getText();
+								_varName = _input.LT(-1).getText();
 								_varValue = null;
 								symbol = new pVariable( _varName, _varValue, _tipo, _varValue);
 								System.out.println("Simbolo adicionado" + symbol);
 								symbolTable.add(symbol);		
 						} 
 						(VG identificador{
-								_varName = LT(-1).getText();
+								_varName = _input.LT(-1).getText();
 								_varValue = null;
 								symbol = new pVariable( _varName, _varValue, _tipo, _varValue);
 								System.out.println("Simbolo adicionado" + symbol);
