@@ -21,7 +21,7 @@ public class mainClass {
 			
 		}
 		catch (pException ex) {
-			System.err.println("ERROR"+ex.getMessage());
+			System.err.println("Semantic error - "+ex.getMessage());
 		}
 		catch (Exception ex) {
 			System.err.println("ERROR"+ex.getMessage());
