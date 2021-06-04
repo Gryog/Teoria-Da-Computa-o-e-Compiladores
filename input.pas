@@ -1,6 +1,7 @@
 program Teste;
 
 integer x;
+integer y;
 integer z;
 integer a;
 
