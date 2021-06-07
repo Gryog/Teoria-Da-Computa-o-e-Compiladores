@@ -56,7 +56,7 @@ public class PascalLangLexer extends Lexer {
 		
 		public void verificaID(String id){
 			if(!symbolTable.exists(id)){
-				throw new pException("Symbol "+_varName+" already declared");
+				throw new pException("Symbol "+id+" not declared");
 			}
 		}
 

@@ -1,10 +1,8 @@
 program Teste;
 
-integer x;
-integer y;
 integer z;
-integer a;
-String a; 
+integer y;
+integer x;
 
 begin
  x := 1

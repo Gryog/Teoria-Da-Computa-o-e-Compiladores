@@ -17,14 +17,14 @@ grammar PascalLang;
 	
 	public void verificaID(String id){
 		if(!symbolTable.exists(id)){
-			throw new pException("Symbol "+_varName+" already declared");
+			throw new pException("Symbol "+id+" not declared");
 		}
 	}
 }
 
 //Programa e Bloco
 
-programa	: PROGRAM identificador { verificaID(_input.LT(-1).getText()); } PV bloco
+programa	: PROGRAM identificador PV bloco
 			;
 			
 bloco		: part_decl_var? part_decl_sub_rotinas? comando_composto
@@ -42,7 +42,7 @@ lista_identificadores	: identificador{
 								_varName = _input.LT(-1).getText();
 								_varValue = null;
 								symbol = new pVariable( _varName, _tipo, _varValue);
-								System.out.println("Simbolo adicionado" + symbol);
+								/*System.out.println("Simbolo adicionado" + symbol);*/
 								if (!symbolTable.exists(_varName)){
 									symbolTable.add(symbol);
 								}
@@ -54,7 +54,7 @@ lista_identificadores	: identificador{
 								_varName = _input.LT(-1).getText();
 								_varValue = null;
 								symbol = new pVariable( _varName, _tipo, _varValue);
-								System.out.println("Simbolo adicionado" + symbol);
+								/*System.out.println("Simbolo adicionado" + symbol);*/
 								if (!symbolTable.exists(_varName)){
 									symbolTable.add(symbol);
 								}
@@ -80,23 +80,23 @@ selec_parametr_formais	: VAR? lista_identificadores DP identificador { verificaI
 						
 //Comandos
 
-comando_composto	: BEGIN comando (comando)* END {System.out.println("Reconheci um comando composto");}
+comando_composto	: BEGIN comando (comando)* END /*{System.out.println("Reconheci um comando composto");}*/
 					;
 					
 comando	: atribuicao | chamada_procedimento | comando_composto | comando_condicional | comando_repetitivo
 		;
 		
-atribuicao	: variavel ATB expressao {System.out.println("Reconheci um comando de atribuicao");}
+atribuicao	: variavel ATB expressao /*{System.out.println("Reconheci um comando de atribuicao");}*/
 			;
 			
 chamada_procedimento	: identificador { verificaID(_input.LT(-1).getText()); } 
-						(AP list_expressoes FP)? {System.out.println("Reconheci um comando de chamada de procedimento");}
+						(AP list_expressoes FP)? /*{System.out.println("Reconheci um comando de chamada de procedimento");}*/
 						;
 						
-comando_condicional	: IF expressao THEN comando (ELSE comando)? {System.out.println("Reconheci um comando condicional");}
+comando_condicional	: IF expressao THEN comando (ELSE comando)? /*{System.out.println("Reconheci um comando condicional");}*/
 					;
 
-comando_repetitivo	: WHILE expressao DO comando {System.out.println("Reconheci um comando repetitivo");}
+comando_repetitivo	: WHILE expressao DO comando /*{System.out.println("Reconheci um comando repetitivo");}*/
 					;
 
 //Expressões

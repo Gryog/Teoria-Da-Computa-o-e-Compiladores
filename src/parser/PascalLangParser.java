@@ -120,6 +120,12 @@ public class PascalLangParser extends Parser {
 		private String _varValue;
 		private pSymbolTable  symbolTable = new pSymbolTable();
 		private pSymbol symbol;
+		
+		public void verificaID(String id){
+			if(!symbolTable.exists(id)){
+				throw new pException("Symbol "+id+" not declared");
+			}
+		}
 
 	public PascalLangParser(TokenStream input) {
 		super(input);
@@ -391,7 +397,7 @@ public class PascalLangParser extends Parser {
 											_varName = _input.LT(-1).getText();
 											_varValue = null;
 											symbol = new pVariable( _varName, _tipo, _varValue);
-											System.out.println("Simbolo adicionado" + symbol);
+											/*System.out.println("Simbolo adicionado" + symbol);*/
 											if (!symbolTable.exists(_varName)){
 												symbolTable.add(symbol);
 											}
@@ -413,7 +419,7 @@ public class PascalLangParser extends Parser {
 												_varName = _input.LT(-1).getText();
 												_varValue = null;
 												symbol = new pVariable( _varName, _tipo, _varValue);
-												System.out.println("Simbolo adicionado" + symbol);
+												/*System.out.println("Simbolo adicionado" + symbol);*/
 												if (!symbolTable.exists(_varName)){
 													symbolTable.add(symbol);
 												}
@@ -538,19 +544,20 @@ public class PascalLangParser extends Parser {
 			match(PROCEDURE);
 			setState(94);
 			identificador();
-			setState(96);
+			 verificaID(_input.LT(-1).getText()); 
+			setState(97);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==AP) {
 				{
-				setState(95);
+				setState(96);
 				parametr_formais();
 				}
 			}
 
-			setState(98);
-			match(PV);
 			setState(99);
+			match(PV);
+			setState(100);
 			bloco();
 			}
 		}
@@ -599,27 +606,27 @@ public class PascalLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(101);
-			match(AP);
 			setState(102);
+			match(AP);
+			setState(103);
 			selec_parametr_formais();
-			setState(107);
+			setState(108);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==PV) {
 				{
 				{
-				setState(103);
-				match(PV);
 				setState(104);
+				match(PV);
+				setState(105);
 				selec_parametr_formais();
 				}
 				}
-				setState(109);
+				setState(110);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(110);
+			setState(111);
 			match(FP);
 			}
 		}
@@ -664,22 +671,23 @@ public class PascalLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(113);
+			setState(114);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==VAR) {
 				{
-				setState(112);
+				setState(113);
 				match(VAR);
 				}
 			}
 
-			setState(115);
-			lista_identificadores();
 			setState(116);
-			match(DP);
+			lista_identificadores();
 			setState(117);
+			match(DP);
+			setState(118);
 			identificador();
+			 verificaID(_input.LT(-1).getText()); 
 			}
 		}
 		catch (RecognitionException re) {
@@ -723,27 +731,26 @@ public class PascalLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(119);
+			setState(121);
 			match(BEGIN);
-			setState(120);
+			setState(122);
 			comando();
-			setState(124);
+			setState(126);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Letra) | (1L << BEGIN) | (1L << WHILE) | (1L << IF))) != 0)) {
 				{
 				{
-				setState(121);
+				setState(123);
 				comando();
 				}
 				}
-				setState(126);
+				setState(128);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(127);
+			setState(129);
 			match(END);
-			System.out.println("Reconheci um comando composto");
 			}
 		}
 		catch (RecognitionException re) {
@@ -791,41 +798,41 @@ public class PascalLangParser extends Parser {
 		ComandoContext _localctx = new ComandoContext(_ctx, getState());
 		enterRule(_localctx, 20, RULE_comando);
 		try {
-			setState(135);
+			setState(136);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(130);
+				setState(131);
 				atribuicao();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(131);
+				setState(132);
 				chamada_procedimento();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(132);
+				setState(133);
 				comando_composto();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(133);
+				setState(134);
 				comando_condicional();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(134);
+				setState(135);
 				comando_repetitivo();
 				}
 				break;
@@ -870,13 +877,12 @@ public class PascalLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(137);
-			variavel();
 			setState(138);
-			match(ATB);
+			variavel();
 			setState(139);
+			match(ATB);
+			setState(140);
 			expressao();
-			System.out.println("Reconheci um comando de atribuicao");
 			}
 		}
 		catch (RecognitionException re) {
@@ -922,21 +928,21 @@ public class PascalLangParser extends Parser {
 			{
 			setState(142);
 			identificador();
-			setState(147);
+			 verificaID(_input.LT(-1).getText()); 
+			setState(148);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==AP) {
 				{
-				setState(143);
-				match(AP);
 				setState(144);
-				list_expressoes();
+				match(AP);
 				setState(145);
+				list_expressoes();
+				setState(146);
 				match(FP);
 				}
 			}
 
-			System.out.println("Reconheci um comando de chamada de procedimento");
 			}
 		}
 		catch (RecognitionException re) {
@@ -983,27 +989,26 @@ public class PascalLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(151);
+			setState(150);
 			match(IF);
-			setState(152);
+			setState(151);
 			expressao();
-			setState(153);
+			setState(152);
 			match(THEN);
-			setState(154);
+			setState(153);
 			comando();
-			setState(157);
+			setState(156);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
 				{
-				setState(155);
+				setState(154);
 				match(ELSE);
-				setState(156);
+				setState(155);
 				comando();
 				}
 				break;
 			}
-			System.out.println("Reconheci um comando condicional");
 			}
 		}
 		catch (RecognitionException re) {
@@ -1046,15 +1051,14 @@ public class PascalLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(161);
+			setState(158);
 			match(WHILE);
-			setState(162);
+			setState(159);
 			expressao();
-			setState(163);
+			setState(160);
 			match(DO);
-			setState(164);
+			setState(161);
 			comando();
-			System.out.println("Reconheci um comando repetitivo");
 			}
 		}
 		catch (RecognitionException re) {
@@ -1096,16 +1100,16 @@ public class PascalLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(167);
+			setState(163);
 			expressao_simples();
-			setState(170);
+			setState(166);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
 			case 1:
 				{
-				setState(168);
+				setState(164);
 				match(Relacao);
-				setState(169);
+				setState(165);
 				expressao_simples();
 				}
 				break;
@@ -1164,12 +1168,12 @@ public class PascalLangParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(173);
+			setState(169);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==PLUS || _la==MINUS) {
 				{
-				setState(172);
+				setState(168);
 				_la = _input.LA(1);
 				if ( !(_la==PLUS || _la==MINUS) ) {
 				_errHandler.recoverInline(this);
@@ -1182,16 +1186,16 @@ public class PascalLangParser extends Parser {
 				}
 			}
 
-			setState(175);
+			setState(171);
 			termo();
-			setState(180);
+			setState(176);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(176);
+					setState(172);
 					_la = _input.LA(1);
 					if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OR) | (1L << PLUS) | (1L << MINUS))) != 0)) ) {
 					_errHandler.recoverInline(this);
@@ -1201,12 +1205,12 @@ public class PascalLangParser extends Parser {
 						_errHandler.reportMatch(this);
 						consume();
 					}
-					setState(177);
+					setState(173);
 					termo();
 					}
 					} 
 				}
-				setState(182);
+				setState(178);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
 			}
@@ -1264,16 +1268,16 @@ public class PascalLangParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(183);
+			setState(179);
 			fator();
-			setState(188);
+			setState(184);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,15,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(184);
+					setState(180);
 					_la = _input.LA(1);
 					if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << DIV) | (1L << AND) | (1L << TIMES))) != 0)) ) {
 					_errHandler.recoverInline(this);
@@ -1283,12 +1287,12 @@ public class PascalLangParser extends Parser {
 						_errHandler.reportMatch(this);
 						consume();
 					}
-					setState(185);
+					setState(181);
 					fator();
 					}
 					} 
 				}
-				setState(190);
+				setState(186);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,15,_ctx);
 			}
@@ -1339,40 +1343,40 @@ public class PascalLangParser extends Parser {
 		FatorContext _localctx = new FatorContext(_ctx, getState());
 		enterRule(_localctx, 36, RULE_fator);
 		try {
-			setState(199);
+			setState(195);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Letra:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(191);
+				setState(187);
 				variavel();
 				}
 				break;
 			case Digito:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(192);
+				setState(188);
 				numero();
 				}
 				break;
 			case AP:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(193);
+				setState(189);
 				match(AP);
-				setState(194);
+				setState(190);
 				expressao();
-				setState(195);
+				setState(191);
 				match(FP);
 				}
 				break;
 			case NOT:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(197);
+				setState(193);
 				match(NOT);
-				setState(198);
+				setState(194);
 				fator();
 				}
 				break;
@@ -1416,27 +1420,29 @@ public class PascalLangParser extends Parser {
 		VariavelContext _localctx = new VariavelContext(_ctx, getState());
 		enterRule(_localctx, 38, RULE_variavel);
 		try {
-			setState(206);
+			setState(205);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(201);
+				setState(197);
 				identificador();
+				 verificaID(_input.LT(-1).getText()); 
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(202);
+				setState(200);
 				identificador();
-				setState(204);
+				 verificaID(_input.LT(-1).getText()); 
+				setState(203);
 				_errHandler.sync(this);
 				switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
 				case 1:
 					{
-					setState(203);
+					setState(202);
 					expressao();
 					}
 					break;
@@ -1488,21 +1494,21 @@ public class PascalLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(208);
+			setState(207);
 			expressao();
-			setState(213);
+			setState(212);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==VG) {
 				{
 				{
-				setState(209);
+				setState(208);
 				match(VG);
-				setState(210);
+				setState(209);
 				expressao();
 				}
 				}
-				setState(215);
+				setState(214);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1545,19 +1551,19 @@ public class PascalLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(216);
+			setState(215);
 			match(Digito);
-			setState(220);
+			setState(219);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==Digito) {
 				{
 				{
-				setState(217);
+				setState(216);
 				match(Digito);
 				}
 				}
-				setState(222);
+				setState(221);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1605,16 +1611,16 @@ public class PascalLangParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(223);
+			setState(222);
 			match(Letra);
-			setState(227);
+			setState(226);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(224);
+					setState(223);
 					_la = _input.LA(1);
 					if ( !(_la==Digito || _la==Letra) ) {
 					_errHandler.recoverInline(this);
@@ -1627,7 +1633,7 @@ public class PascalLangParser extends Parser {
 					}
 					} 
 				}
-				setState(229);
+				setState(228);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
 			}
@@ -1667,13 +1673,13 @@ public class PascalLangParser extends Parser {
 		TipoContext _localctx = new TipoContext(_ctx, getState());
 		enterRule(_localctx, 46, RULE_tipo);
 		try {
-			setState(238);
+			setState(237);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Integer:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(230);
+				setState(229);
 				match(Integer);
 				 _tipo = pVariable.Integer; 
 				}
@@ -1681,7 +1687,7 @@ public class PascalLangParser extends Parser {
 			case Real:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(232);
+				setState(231);
 				match(Real);
 				 _tipo = pVariable.Real; 
 				}
@@ -1689,7 +1695,7 @@ public class PascalLangParser extends Parser {
 			case Boolean:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(234);
+				setState(233);
 				match(Boolean);
 				 _tipo = pVariable.Boolean; 
 				}
@@ -1697,7 +1703,7 @@ public class PascalLangParser extends Parser {
 			case String:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(236);
+				setState(235);
 				match(String);
 				 _tipo = pVariable.String; 
 				}
@@ -1718,32 +1724,32 @@ public class PascalLangParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$\u00f3\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$\u00f2\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
 		"\3\2\3\2\3\2\3\2\3\2\3\3\5\39\n\3\3\3\5\3<\n\3\3\3\3\3\3\4\3\4\3\4\7\4"+
 		"C\n\4\f\4\16\4F\13\4\3\4\3\4\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\7\6S"+
-		"\n\6\f\6\16\6V\13\6\3\7\3\7\3\7\7\7[\n\7\f\7\16\7^\13\7\3\b\3\b\3\b\5"+
-		"\bc\n\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\7\tl\n\t\f\t\16\to\13\t\3\t\3\t\3"+
-		"\n\5\nt\n\n\3\n\3\n\3\n\3\n\3\13\3\13\3\13\7\13}\n\13\f\13\16\13\u0080"+
-		"\13\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\5\f\u008a\n\f\3\r\3\r\3\r\3"+
-		"\r\3\r\3\16\3\16\3\16\3\16\3\16\5\16\u0096\n\16\3\16\3\16\3\17\3\17\3"+
-		"\17\3\17\3\17\3\17\5\17\u00a0\n\17\3\17\3\17\3\20\3\20\3\20\3\20\3\20"+
-		"\3\20\3\21\3\21\3\21\5\21\u00ad\n\21\3\22\5\22\u00b0\n\22\3\22\3\22\3"+
-		"\22\7\22\u00b5\n\22\f\22\16\22\u00b8\13\22\3\23\3\23\3\23\7\23\u00bd\n"+
-		"\23\f\23\16\23\u00c0\13\23\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\5\24"+
-		"\u00ca\n\24\3\25\3\25\3\25\5\25\u00cf\n\25\5\25\u00d1\n\25\3\26\3\26\3"+
-		"\26\7\26\u00d6\n\26\f\26\16\26\u00d9\13\26\3\27\3\27\7\27\u00dd\n\27\f"+
-		"\27\16\27\u00e0\13\27\3\30\3\30\7\30\u00e4\n\30\f\30\16\30\u00e7\13\30"+
-		"\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\5\31\u00f1\n\31\3\31\2\2\32\2"+
-		"\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\2\6\3\2\32\33\4\2\17"+
-		"\17\32\33\4\2\20\21\34\34\3\2\3\4\2\u00f8\2\62\3\2\2\2\48\3\2\2\2\6?\3"+
-		"\2\2\2\bI\3\2\2\2\nL\3\2\2\2\f\\\3\2\2\2\16_\3\2\2\2\20g\3\2\2\2\22s\3"+
-		"\2\2\2\24y\3\2\2\2\26\u0089\3\2\2\2\30\u008b\3\2\2\2\32\u0090\3\2\2\2"+
-		"\34\u0099\3\2\2\2\36\u00a3\3\2\2\2 \u00a9\3\2\2\2\"\u00af\3\2\2\2$\u00b9"+
-		"\3\2\2\2&\u00c9\3\2\2\2(\u00d0\3\2\2\2*\u00d2\3\2\2\2,\u00da\3\2\2\2."+
-		"\u00e1\3\2\2\2\60\u00f0\3\2\2\2\62\63\7\6\2\2\63\64\5.\30\2\64\65\7\37"+
+		"\n\6\f\6\16\6V\13\6\3\7\3\7\3\7\7\7[\n\7\f\7\16\7^\13\7\3\b\3\b\3\b\3"+
+		"\b\5\bd\n\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\7\tm\n\t\f\t\16\tp\13\t\3\t\3"+
+		"\t\3\n\5\nu\n\n\3\n\3\n\3\n\3\n\3\n\3\13\3\13\3\13\7\13\177\n\13\f\13"+
+		"\16\13\u0082\13\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\5\f\u008b\n\f\3\r\3\r"+
+		"\3\r\3\r\3\16\3\16\3\16\3\16\3\16\3\16\5\16\u0097\n\16\3\17\3\17\3\17"+
+		"\3\17\3\17\3\17\5\17\u009f\n\17\3\20\3\20\3\20\3\20\3\20\3\21\3\21\3\21"+
+		"\5\21\u00a9\n\21\3\22\5\22\u00ac\n\22\3\22\3\22\3\22\7\22\u00b1\n\22\f"+
+		"\22\16\22\u00b4\13\22\3\23\3\23\3\23\7\23\u00b9\n\23\f\23\16\23\u00bc"+
+		"\13\23\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\5\24\u00c6\n\24\3\25\3"+
+		"\25\3\25\3\25\3\25\3\25\5\25\u00ce\n\25\5\25\u00d0\n\25\3\26\3\26\3\26"+
+		"\7\26\u00d5\n\26\f\26\16\26\u00d8\13\26\3\27\3\27\7\27\u00dc\n\27\f\27"+
+		"\16\27\u00df\13\27\3\30\3\30\7\30\u00e3\n\30\f\30\16\30\u00e6\13\30\3"+
+		"\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\5\31\u00f0\n\31\3\31\2\2\32\2\4"+
+		"\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\2\6\3\2\32\33\4\2\17\17"+
+		"\32\33\4\2\20\21\34\34\3\2\3\4\2\u00f7\2\62\3\2\2\2\48\3\2\2\2\6?\3\2"+
+		"\2\2\bI\3\2\2\2\nL\3\2\2\2\f\\\3\2\2\2\16_\3\2\2\2\20h\3\2\2\2\22t\3\2"+
+		"\2\2\24{\3\2\2\2\26\u008a\3\2\2\2\30\u008c\3\2\2\2\32\u0090\3\2\2\2\34"+
+		"\u0098\3\2\2\2\36\u00a0\3\2\2\2 \u00a5\3\2\2\2\"\u00ab\3\2\2\2$\u00b5"+
+		"\3\2\2\2&\u00c5\3\2\2\2(\u00cf\3\2\2\2*\u00d1\3\2\2\2,\u00d9\3\2\2\2."+
+		"\u00e0\3\2\2\2\60\u00ef\3\2\2\2\62\63\7\6\2\2\63\64\5.\30\2\64\65\7\37"+
 		"\2\2\65\66\5\4\3\2\66\3\3\2\2\2\679\5\6\4\28\67\3\2\2\289\3\2\2\29;\3"+
 		"\2\2\2:<\5\f\7\2;:\3\2\2\2;<\3\2\2\2<=\3\2\2\2=>\5\24\13\2>\5\3\2\2\2"+
 		"?D\5\b\5\2@A\7\37\2\2AC\5\b\5\2B@\3\2\2\2CF\3\2\2\2DB\3\2\2\2DE\3\2\2"+
@@ -1751,52 +1757,51 @@ public class PascalLangParser extends Parser {
 		"\3\2\2\2LM\5.\30\2MT\b\6\1\2NO\7 \2\2OP\5.\30\2PQ\b\6\1\2QS\3\2\2\2RN"+
 		"\3\2\2\2SV\3\2\2\2TR\3\2\2\2TU\3\2\2\2U\13\3\2\2\2VT\3\2\2\2WX\5\16\b"+
 		"\2XY\7\37\2\2Y[\3\2\2\2ZW\3\2\2\2[^\3\2\2\2\\Z\3\2\2\2\\]\3\2\2\2]\r\3"+
-		"\2\2\2^\\\3\2\2\2_`\7\7\2\2`b\5.\30\2ac\5\20\t\2ba\3\2\2\2bc\3\2\2\2c"+
-		"d\3\2\2\2de\7\37\2\2ef\5\4\3\2f\17\3\2\2\2gh\7\35\2\2hm\5\22\n\2ij\7\37"+
-		"\2\2jl\5\22\n\2ki\3\2\2\2lo\3\2\2\2mk\3\2\2\2mn\3\2\2\2np\3\2\2\2om\3"+
-		"\2\2\2pq\7\36\2\2q\21\3\2\2\2rt\7\b\2\2sr\3\2\2\2st\3\2\2\2tu\3\2\2\2"+
-		"uv\5\n\6\2vw\7!\2\2wx\5.\30\2x\23\3\2\2\2yz\7\t\2\2z~\5\26\f\2{}\5\26"+
-		"\f\2|{\3\2\2\2}\u0080\3\2\2\2~|\3\2\2\2~\177\3\2\2\2\177\u0081\3\2\2\2"+
-		"\u0080~\3\2\2\2\u0081\u0082\7\n\2\2\u0082\u0083\b\13\1\2\u0083\25\3\2"+
-		"\2\2\u0084\u008a\5\30\r\2\u0085\u008a\5\32\16\2\u0086\u008a\5\24\13\2"+
-		"\u0087\u008a\5\34\17\2\u0088\u008a\5\36\20\2\u0089\u0084\3\2\2\2\u0089"+
-		"\u0085\3\2\2\2\u0089\u0086\3\2\2\2\u0089\u0087\3\2\2\2\u0089\u0088\3\2"+
-		"\2\2\u008a\27\3\2\2\2\u008b\u008c\5(\25\2\u008c\u008d\7\"\2\2\u008d\u008e"+
-		"\5 \21\2\u008e\u008f\b\r\1\2\u008f\31\3\2\2\2\u0090\u0095\5.\30\2\u0091"+
-		"\u0092\7\35\2\2\u0092\u0093\5*\26\2\u0093\u0094\7\36\2\2\u0094\u0096\3"+
-		"\2\2\2\u0095\u0091\3\2\2\2\u0095\u0096\3\2\2\2\u0096\u0097\3\2\2\2\u0097"+
-		"\u0098\b\16\1\2\u0098\33\3\2\2\2\u0099\u009a\7#\2\2\u009a\u009b\5 \21"+
-		"\2\u009b\u009c\7\13\2\2\u009c\u009f\5\26\f\2\u009d\u009e\7\f\2\2\u009e"+
-		"\u00a0\5\26\f\2\u009f\u009d\3\2\2\2\u009f\u00a0\3\2\2\2\u00a0\u00a1\3"+
-		"\2\2\2\u00a1\u00a2\b\17\1\2\u00a2\35\3\2\2\2\u00a3\u00a4\7\r\2\2\u00a4"+
-		"\u00a5\5 \21\2\u00a5\u00a6\7\16\2\2\u00a6\u00a7\5\26\f\2\u00a7\u00a8\b"+
-		"\20\1\2\u00a8\37\3\2\2\2\u00a9\u00ac\5\"\22\2\u00aa\u00ab\7\5\2\2\u00ab"+
-		"\u00ad\5\"\22\2\u00ac\u00aa\3\2\2\2\u00ac\u00ad\3\2\2\2\u00ad!\3\2\2\2"+
-		"\u00ae\u00b0\t\2\2\2\u00af\u00ae\3\2\2\2\u00af\u00b0\3\2\2\2\u00b0\u00b1"+
-		"\3\2\2\2\u00b1\u00b6\5$\23\2\u00b2\u00b3\t\3\2\2\u00b3\u00b5\5$\23\2\u00b4"+
-		"\u00b2\3\2\2\2\u00b5\u00b8\3\2\2\2\u00b6\u00b4\3\2\2\2\u00b6\u00b7\3\2"+
-		"\2\2\u00b7#\3\2\2\2\u00b8\u00b6\3\2\2\2\u00b9\u00be\5&\24\2\u00ba\u00bb"+
-		"\t\4\2\2\u00bb\u00bd\5&\24\2\u00bc\u00ba\3\2\2\2\u00bd\u00c0\3\2\2\2\u00be"+
-		"\u00bc\3\2\2\2\u00be\u00bf\3\2\2\2\u00bf%\3\2\2\2\u00c0\u00be\3\2\2\2"+
-		"\u00c1\u00ca\5(\25\2\u00c2\u00ca\5,\27\2\u00c3\u00c4\7\35\2\2\u00c4\u00c5"+
-		"\5 \21\2\u00c5\u00c6\7\36\2\2\u00c6\u00ca\3\2\2\2\u00c7\u00c8\7\22\2\2"+
-		"\u00c8\u00ca\5&\24\2\u00c9\u00c1\3\2\2\2\u00c9\u00c2\3\2\2\2\u00c9\u00c3"+
-		"\3\2\2\2\u00c9\u00c7\3\2\2\2\u00ca\'\3\2\2\2\u00cb\u00d1\5.\30\2\u00cc"+
-		"\u00ce\5.\30\2\u00cd\u00cf\5 \21\2\u00ce\u00cd\3\2\2\2\u00ce\u00cf\3\2"+
-		"\2\2\u00cf\u00d1\3\2\2\2\u00d0\u00cb\3\2\2\2\u00d0\u00cc\3\2\2\2\u00d1"+
-		")\3\2\2\2\u00d2\u00d7\5 \21\2\u00d3\u00d4\7 \2\2\u00d4\u00d6\5 \21\2\u00d5"+
-		"\u00d3\3\2\2\2\u00d6\u00d9\3\2\2\2\u00d7\u00d5\3\2\2\2\u00d7\u00d8\3\2"+
-		"\2\2\u00d8+\3\2\2\2\u00d9\u00d7\3\2\2\2\u00da\u00de\7\3\2\2\u00db\u00dd"+
-		"\7\3\2\2\u00dc\u00db\3\2\2\2\u00dd\u00e0\3\2\2\2\u00de\u00dc\3\2\2\2\u00de"+
-		"\u00df\3\2\2\2\u00df-\3\2\2\2\u00e0\u00de\3\2\2\2\u00e1\u00e5\7\4\2\2"+
-		"\u00e2\u00e4\t\5\2\2\u00e3\u00e2\3\2\2\2\u00e4\u00e7\3\2\2\2\u00e5\u00e3"+
-		"\3\2\2\2\u00e5\u00e6\3\2\2\2\u00e6/\3\2\2\2\u00e7\u00e5\3\2\2\2\u00e8"+
-		"\u00e9\7\23\2\2\u00e9\u00f1\b\31\1\2\u00ea\u00eb\7\24\2\2\u00eb\u00f1"+
-		"\b\31\1\2\u00ec\u00ed\7\25\2\2\u00ed\u00f1\b\31\1\2\u00ee\u00ef\7\27\2"+
-		"\2\u00ef\u00f1\b\31\1\2\u00f0\u00e8\3\2\2\2\u00f0\u00ea\3\2\2\2\u00f0"+
-		"\u00ec\3\2\2\2\u00f0\u00ee\3\2\2\2\u00f1\61\3\2\2\2\318;DT\\bms~\u0089"+
-		"\u0095\u009f\u00ac\u00af\u00b6\u00be\u00c9\u00ce\u00d0\u00d7\u00de\u00e5"+
-		"\u00f0";
+		"\2\2\2^\\\3\2\2\2_`\7\7\2\2`a\5.\30\2ac\b\b\1\2bd\5\20\t\2cb\3\2\2\2c"+
+		"d\3\2\2\2de\3\2\2\2ef\7\37\2\2fg\5\4\3\2g\17\3\2\2\2hi\7\35\2\2in\5\22"+
+		"\n\2jk\7\37\2\2km\5\22\n\2lj\3\2\2\2mp\3\2\2\2nl\3\2\2\2no\3\2\2\2oq\3"+
+		"\2\2\2pn\3\2\2\2qr\7\36\2\2r\21\3\2\2\2su\7\b\2\2ts\3\2\2\2tu\3\2\2\2"+
+		"uv\3\2\2\2vw\5\n\6\2wx\7!\2\2xy\5.\30\2yz\b\n\1\2z\23\3\2\2\2{|\7\t\2"+
+		"\2|\u0080\5\26\f\2}\177\5\26\f\2~}\3\2\2\2\177\u0082\3\2\2\2\u0080~\3"+
+		"\2\2\2\u0080\u0081\3\2\2\2\u0081\u0083\3\2\2\2\u0082\u0080\3\2\2\2\u0083"+
+		"\u0084\7\n\2\2\u0084\25\3\2\2\2\u0085\u008b\5\30\r\2\u0086\u008b\5\32"+
+		"\16\2\u0087\u008b\5\24\13\2\u0088\u008b\5\34\17\2\u0089\u008b\5\36\20"+
+		"\2\u008a\u0085\3\2\2\2\u008a\u0086\3\2\2\2\u008a\u0087\3\2\2\2\u008a\u0088"+
+		"\3\2\2\2\u008a\u0089\3\2\2\2\u008b\27\3\2\2\2\u008c\u008d\5(\25\2\u008d"+
+		"\u008e\7\"\2\2\u008e\u008f\5 \21\2\u008f\31\3\2\2\2\u0090\u0091\5.\30"+
+		"\2\u0091\u0096\b\16\1\2\u0092\u0093\7\35\2\2\u0093\u0094\5*\26\2\u0094"+
+		"\u0095\7\36\2\2\u0095\u0097\3\2\2\2\u0096\u0092\3\2\2\2\u0096\u0097\3"+
+		"\2\2\2\u0097\33\3\2\2\2\u0098\u0099\7#\2\2\u0099\u009a\5 \21\2\u009a\u009b"+
+		"\7\13\2\2\u009b\u009e\5\26\f\2\u009c\u009d\7\f\2\2\u009d\u009f\5\26\f"+
+		"\2\u009e\u009c\3\2\2\2\u009e\u009f\3\2\2\2\u009f\35\3\2\2\2\u00a0\u00a1"+
+		"\7\r\2\2\u00a1\u00a2\5 \21\2\u00a2\u00a3\7\16\2\2\u00a3\u00a4\5\26\f\2"+
+		"\u00a4\37\3\2\2\2\u00a5\u00a8\5\"\22\2\u00a6\u00a7\7\5\2\2\u00a7\u00a9"+
+		"\5\"\22\2\u00a8\u00a6\3\2\2\2\u00a8\u00a9\3\2\2\2\u00a9!\3\2\2\2\u00aa"+
+		"\u00ac\t\2\2\2\u00ab\u00aa\3\2\2\2\u00ab\u00ac\3\2\2\2\u00ac\u00ad\3\2"+
+		"\2\2\u00ad\u00b2\5$\23\2\u00ae\u00af\t\3\2\2\u00af\u00b1\5$\23\2\u00b0"+
+		"\u00ae\3\2\2\2\u00b1\u00b4\3\2\2\2\u00b2\u00b0\3\2\2\2\u00b2\u00b3\3\2"+
+		"\2\2\u00b3#\3\2\2\2\u00b4\u00b2\3\2\2\2\u00b5\u00ba\5&\24\2\u00b6\u00b7"+
+		"\t\4\2\2\u00b7\u00b9\5&\24\2\u00b8\u00b6\3\2\2\2\u00b9\u00bc\3\2\2\2\u00ba"+
+		"\u00b8\3\2\2\2\u00ba\u00bb\3\2\2\2\u00bb%\3\2\2\2\u00bc\u00ba\3\2\2\2"+
+		"\u00bd\u00c6\5(\25\2\u00be\u00c6\5,\27\2\u00bf\u00c0\7\35\2\2\u00c0\u00c1"+
+		"\5 \21\2\u00c1\u00c2\7\36\2\2\u00c2\u00c6\3\2\2\2\u00c3\u00c4\7\22\2\2"+
+		"\u00c4\u00c6\5&\24\2\u00c5\u00bd\3\2\2\2\u00c5\u00be\3\2\2\2\u00c5\u00bf"+
+		"\3\2\2\2\u00c5\u00c3\3\2\2\2\u00c6\'\3\2\2\2\u00c7\u00c8\5.\30\2\u00c8"+
+		"\u00c9\b\25\1\2\u00c9\u00d0\3\2\2\2\u00ca\u00cb\5.\30\2\u00cb\u00cd\b"+
+		"\25\1\2\u00cc\u00ce\5 \21\2\u00cd\u00cc\3\2\2\2\u00cd\u00ce\3\2\2\2\u00ce"+
+		"\u00d0\3\2\2\2\u00cf\u00c7\3\2\2\2\u00cf\u00ca\3\2\2\2\u00d0)\3\2\2\2"+
+		"\u00d1\u00d6\5 \21\2\u00d2\u00d3\7 \2\2\u00d3\u00d5\5 \21\2\u00d4\u00d2"+
+		"\3\2\2\2\u00d5\u00d8\3\2\2\2\u00d6\u00d4\3\2\2\2\u00d6\u00d7\3\2\2\2\u00d7"+
+		"+\3\2\2\2\u00d8\u00d6\3\2\2\2\u00d9\u00dd\7\3\2\2\u00da\u00dc\7\3\2\2"+
+		"\u00db\u00da\3\2\2\2\u00dc\u00df\3\2\2\2\u00dd\u00db\3\2\2\2\u00dd\u00de"+
+		"\3\2\2\2\u00de-\3\2\2\2\u00df\u00dd\3\2\2\2\u00e0\u00e4\7\4\2\2\u00e1"+
+		"\u00e3\t\5\2\2\u00e2\u00e1\3\2\2\2\u00e3\u00e6\3\2\2\2\u00e4\u00e2\3\2"+
+		"\2\2\u00e4\u00e5\3\2\2\2\u00e5/\3\2\2\2\u00e6\u00e4\3\2\2\2\u00e7\u00e8"+
+		"\7\23\2\2\u00e8\u00f0\b\31\1\2\u00e9\u00ea\7\24\2\2\u00ea\u00f0\b\31\1"+
+		"\2\u00eb\u00ec\7\25\2\2\u00ec\u00f0\b\31\1\2\u00ed\u00ee\7\27\2\2\u00ee"+
+		"\u00f0\b\31\1\2\u00ef\u00e7\3\2\2\2\u00ef\u00e9\3\2\2\2\u00ef\u00eb\3"+
+		"\2\2\2\u00ef\u00ed\3\2\2\2\u00f0\61\3\2\2\2\318;DT\\cnt\u0080\u008a\u0096"+
+		"\u009e\u00a8\u00ab\u00b2\u00ba\u00c5\u00cd\u00cf\u00d6\u00dd\u00e4\u00ef";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
